@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -83,8 +85,23 @@ fun HomeScreen() {
         )
         {
             Button(
-                onClick = {}
-            ) { }
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+            ) {
+                Text("Emergência imediata")
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow)
+            ) {
+                Text("Encontrar Abrigo")
+            }
+            Button(
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow)
+            ) {
+                Text("Chatbot de ajuda")
+            }
         }
     }
 }
