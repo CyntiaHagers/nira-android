@@ -89,7 +89,7 @@ fun AppNavHost() {
             }
             composable(Routes.HOME) { HomeScreen() }
             composable(Routes.MAP) { MapScreen() }
-            composable(Routes.CONTACTS) { ContactsScreen() }
+            composable(Routes.CONTACTS) { ContatosScreen() }
             composable(Routes.FEEDBACK) { FeedbackScreen() }
             composable(Routes.CHATBOT) { ChatbotScreen() }
         }
