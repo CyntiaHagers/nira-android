@@ -56,4 +56,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // Material icons extended (todos os ícones: Group, Place, Menu etc.)
+    implementation("androidx.navigation:navigation-compose:2.8.2")
+    implementation("androidx.compose.material:material-icons-extended") // (opcional p/ mais ícones)
+
+
 }
