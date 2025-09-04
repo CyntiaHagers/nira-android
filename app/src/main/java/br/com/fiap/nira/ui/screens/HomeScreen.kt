@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
@@ -110,13 +112,31 @@ fun HomeScreen() {
             }
         }
 
-        Row (
+        Column (
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxHeight()
         ) {
-
+            Spacer(modifier = Modifier.weight(1f))
+            Row (
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.Bottom,
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.botao_home),
+                    contentDescription = "image description",
+                    modifier = Modifier
+                        .width(30.dp)
+                        .height(46.dp)
+                )
+            }
         }
     }
+}
+
+@Composable
+fun Spacer(modifier: Modifier) {
+    TODO("Not yet implemented")
 }
 
 @Composable
