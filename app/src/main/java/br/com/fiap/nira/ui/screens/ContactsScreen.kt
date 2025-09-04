@@ -1,6 +1,7 @@
 package br.com.fiap.nira.ui.screens
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +31,7 @@ import br.com.fiap.nira.R
 val PurpleStart = Color(0xFF4A00E0)
 val PurpleEnd = Color(0xFF8E2DE2)
 val DarkPurple = Color(0xFF4A00E0)
-val ButtonYellow = Color(0xFFFFC107)
+val ButtonYellow = Color(0xFFFCA400)
 val TextWhite = Color.White
 
 // Modelo de dados para um contato
@@ -130,14 +132,18 @@ fun TopBar() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(top = 36.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+
     ) {
-        Icon(
+        Image(
             painter = painterResource(id = R.drawable.logo_nira_app),
-            contentDescription = "NIRA Logo",
-            tint = TextWhite,
-            modifier = Modifier.size(80.dp)
+            contentDescription = "image description",
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+                .width(101.dp)
+                .height(39.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(

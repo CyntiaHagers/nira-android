@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
@@ -41,8 +42,9 @@ fun HomeScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF7939A4))
+            .background(Color(0x6F7939A4))
     ) {
+        // logo no topo
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -59,6 +61,8 @@ fun HomeScreen() {
                     .height(39.dp)
             )
         }
+
+        // texto no topo
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,12 +80,14 @@ fun HomeScreen() {
                     color = Color(0xFFFFFFFF),
                 )
             )
-
         }
 
+        // organização dos botões centrais
         Column (
-            modifier = Modifier.
-            align(Alignment.Center),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .padding(horizontal = 16.dp)
+
         )
         {
             Button(
@@ -102,6 +108,13 @@ fun HomeScreen() {
             ) {
                 Text("Chatbot de ajuda")
             }
+        }
+
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+
         }
     }
 }
