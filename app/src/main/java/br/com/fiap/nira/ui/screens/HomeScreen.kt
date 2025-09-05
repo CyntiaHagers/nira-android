@@ -111,26 +111,6 @@ fun HomeScreen() {
                 Text("Chatbot de ajuda")
             }
         }
-
-        Column (
-            modifier = Modifier
-                .fillMaxHeight()
-        ) {
-            Spacer(modifier = Modifier.weight(1f))
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.Bottom,
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.botao_home),
-                    contentDescription = "image description",
-                    modifier = Modifier
-                        .width(30.dp)
-                        .height(46.dp)
-                )
-            }
-        }
     }
 }
 
