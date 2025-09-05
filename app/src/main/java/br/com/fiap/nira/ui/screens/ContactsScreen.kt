@@ -38,7 +38,7 @@ val TextWhite = Color.White
 data class Contact(val name: String, val phone: String)
 
 @Composable
-fun ContatosScreen() {
+fun ContactsScreen() {
     val contacts = listOf(
         Contact("Ana", "(11) 98765-4321"),
         Contact("João", "(11) 98765-4321"),
@@ -272,6 +272,6 @@ fun BottomNavBar() {
 
 @Preview(showBackground = true)
 @Composable
-fun ContatosScreenPreview() {
-    ContatosScreen()
+fun ContactsScreenPreview() {
+    ContactsScreen()
 }

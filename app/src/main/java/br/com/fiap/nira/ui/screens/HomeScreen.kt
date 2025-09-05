@@ -136,7 +136,9 @@ fun HomeScreen() {
 
 @Composable
 fun Spacer(modifier: Modifier) {
-    TODO("Not yet implemented")
+    androidx.compose.foundation.layout.Spacer(
+        modifier = Modifier.height(16.dp) // ajuste a medida que você precisa
+    )
 }
 
 @Composable
