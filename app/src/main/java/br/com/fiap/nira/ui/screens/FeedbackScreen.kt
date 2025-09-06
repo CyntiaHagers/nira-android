@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +28,7 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
     // Estados
     var detalhes by remember { mutableStateOf("") }
     var selectedOption by remember { mutableStateOf("") }
+
 
     // Gradiente de fundo
     val gradient = Brush.verticalGradient(
@@ -49,14 +52,16 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = R.drawable.logos_simbolo),
                     contentDescription = "Logo Nira",
-                    modifier = Modifier.size(80.dp)
+                    modifier = Modifier
+                        .size(80.dp)
+                        .padding(bottom = 16.dp)
                 )
                 Text(
                     text = "NIRA",
                     fontSize = 34.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.padding(start = 8.dp, bottom = 14.dp)
+                    modifier = Modifier.padding(bottom = 14.dp)
                 )
             }
 
@@ -83,7 +88,7 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 12.dp)
+                        .padding(top = 12.dp, bottom = 8.dp)
                 ) {
                     RadioButton(
                         selected = selectedOption == "local",
@@ -93,6 +98,7 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     Text(
                         text = "Local fechado ou inseguro",
                         color = Color.White,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 12.dp)
                     )
                 }
@@ -112,6 +118,7 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     Text(
                         text = "Dados incorretos",
                         color = Color.White,
+                        fontSize = 22.sp,
                         modifier = Modifier.padding(start = 12.dp)
                     )
                 }
@@ -123,7 +130,8 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     placeholder = { Text("Escreva detalhes aqui...") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(120.dp),
+                        .padding(20.dp)
+                        .height(170.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = Color.White.copy(alpha = 0.1f),
@@ -131,7 +139,8 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                         focusedBorderColor = Color.Transparent,
                         unfocusedBorderColor = Color.Transparent,
                         cursorColor = Color.White
-                    )
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
                 )
 
                 // Botão enviar
@@ -142,10 +151,11 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFA000)),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp),
+                        .height(80.dp)
+                        .padding(top = 24.dp),
                     shape = RoundedCornerShape(16.dp)
                 ) {
-                    Text("ENVIAR", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("ENVIAR", color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 }
 
                 // Rodapé
@@ -155,7 +165,7 @@ fun FeedbackScreen(modifier: Modifier = Modifier) {
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(top = 12.dp)
+                        .padding(20.dp)
                         .fillMaxWidth()
                 )
             }
