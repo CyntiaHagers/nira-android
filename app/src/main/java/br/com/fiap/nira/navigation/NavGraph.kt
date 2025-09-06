@@ -1,18 +1,19 @@
 package br.com.fiap.nira.navigation
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Group
-
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.layout.padding
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import br.com.fiap.nira.ui.screens.* // importa todas as telas
+import br.com.fiap.nira.ui.screens.*
 import br.com.fiap.nira.ui.theme.BottomBarPurple
 import br.com.fiap.nira.ui.theme.White
 
@@ -36,7 +37,6 @@ private val bottomItems = listOf(
     BottomItem(Routes.MAP, label = "Mapa", icon = Icons.Filled.Place),
     BottomItem(Routes.CONTACTS, label = "Contatos", icon = Icons.Filled.Group),
     BottomItem(Routes.CHATBOT, label = "Mais", icon = Icons.Filled.Menu)
-
 )
 
 @Composable
@@ -47,22 +47,24 @@ fun AppNavHost() {
         bottomBar = {
             if (currentRoute(navController) != Routes.LOGIN) {
                 NavigationBar(containerColor = BottomBarPurple) {
+                    val current = currentRoute(navController)
                     bottomItems.forEach { item ->
-                        val selected = currentRoute(navController) == item.route
+                        val selected = current == item.route
                         NavigationBarItem(
                             selected = selected,
                             onClick = {
-                                navController.navigate(item.route) {
-                                    launchSingleTop = true
+                                if (!selected) {
+                                    navController.navigate(item.route) {
+                                        // Evita múltiplas cópias da mesma tela
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
                                 }
                             },
-                            icon = {
-                                Icon(
-                                    item.icon,
-                                    contentDescription = item.label,
-                                    tint = White
-                                )
-                            },
+                            icon = { Icon(item.icon, contentDescription = item.label, tint = White) },
                             label = { Text(item.label, color = White) }
                         )
                     }
@@ -87,7 +89,8 @@ fun AppNavHost() {
                     onModoSeguro = { /* TODO */ }
                 )
             }
-            composable(Routes.HOME) { HomeScreen() }
+
+            composable(Routes.HOME) { HomeScreen(navController) }
             composable(Routes.MAP) { MapScreen() }
             composable(Routes.CONTACTS) { ContactsScreen() }
             composable(Routes.FEEDBACK) { FeedbackScreen() }
@@ -98,6 +101,6 @@ fun AppNavHost() {
 
 @Composable
 private fun currentRoute(navController: NavHostController): String? {
-    val navBackStackEntry = navController.currentBackStackEntryAsState()
-    return navBackStackEntry.value?.destination?.route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }
