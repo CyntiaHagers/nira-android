@@ -1,9 +1,10 @@
 package br.com.fiap.nira.ui.screens
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,14 +14,17 @@ import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.* // Importação geral do Material 3
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,11 +43,19 @@ data class Contact(val name: String, val phone: String)
 
 @Composable
 fun ContactsScreen() {
-    val contacts = listOf(
-        Contact("Ana", "(11) 98765-4321"),
-        Contact("João", "(11) 98765-4321"),
-        Contact("Laura", "(11) 98765-4321")
-    )
+    val contacts = remember {
+        mutableStateListOf(
+            Contact("Ana", "(11) 98765-4321"),
+            Contact("João", "(11) 98765-4321"),
+            Contact("Laura", "(11) 98765-4321")
+        )
+    }
+
+    val showDialog = remember { mutableStateOf(false) }
+
+    fun onRemoveContact(contact: Contact) {
+        contacts.remove(contact)
+    }
 
     Box(
         modifier = Modifier
@@ -67,24 +79,31 @@ fun ContactsScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "MEUS CONTATOS DE CONFIANÇA",
+                    text = "Contatos de confiança",
                     color = TextWhite,
-                    fontSize = 18.sp,
+                    fontSize = 32.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(vertical = 24.dp)
+                    fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                    modifier = Modifier
+                        .padding(vertical = 28.dp)
                 )
 
-                contacts.forEach { contact ->
-                    ContactItem(contact = contact, onRemove = { /* Ação de remover */ })
-                    Spacer(modifier = Modifier.height(16.dp))
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    items(contacts) { contact ->
+                        ContactItem(contact = contact, onRemove = { onRemoveContact(contact) })
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = { /* Ação de adicionar */ },
+                    onClick = { showDialog.value = true },
                     shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = ButtonYellow),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFFFFF)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Icon(
@@ -93,15 +112,18 @@ fun ContactsScreen() {
                         tint = Color.Black
                     )
                     Text(
-                        text = "ADICIONAR CONTATO",
+                        text = "Adicionar Contato",
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
+                        fontSize = 28.sp,
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.dongle_regular))
+                        ),
                         modifier = Modifier.padding(vertical = 8.dp)
                     )
                 }
 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 DefaultMessage()
 
@@ -110,20 +132,33 @@ fun ContactsScreen() {
                 Button(
                     onClick = { /* Ação de enviar localização */ },
                     shape = RoundedCornerShape(50),
-                    colors = ButtonDefaults.buttonColors(containerColor = ButtonYellow),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF39E0F)),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = "ENVIAR LOCALIZAÇÃO AGORA",
+                        text = "Enviar localização agora",
                         color = Color.Black,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(vertical = 10.dp)
+                        fontSize = 28.sp,
+                        modifier = Modifier.padding(vertical = 10.dp),
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.dongle_regular))
+                        ),
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
             }
         }
+    }
+
+    if (showDialog.value) {
+        AddContactDialog(
+            onAddContact = { name, phone ->
+                contacts.add(Contact(name, phone))
+                showDialog.value = false
+            },
+            onDismiss = { showDialog.value = false }
+        )
     }
 }
 
@@ -155,7 +190,6 @@ fun TopBar() {
     }
 }
 
-
 @Composable
 fun ContactItem(contact: Contact, onRemove: () -> Unit) {
     Row(
@@ -170,8 +204,10 @@ fun ContactItem(contact: Contact, onRemove: () -> Unit) {
             Text(
                 text = contact.name,
                 color = TextWhite,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                    fontSize = 34.sp
+                )
             )
             Text(
                 text = contact.phone,
@@ -268,6 +304,73 @@ fun BottomNavBar() {
             )
         )
     }
+}
+
+@Composable
+fun AddContactDialog(
+    onAddContact: (name: String, phone: String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    var name by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(
+                text = "Adicionar Novo Contato",
+                color = Color.Black
+            )
+        },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Nome") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedLabelColor = Color.Black,
+                        cursorColor = Color.Black
+                    )
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = phone,
+                    onValueChange = { phone = it },
+                    label = { Text("Telefone") },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedTextColor = Color.Black,
+                        unfocusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedLabelColor = Color.Black,
+                        cursorColor = Color.Black
+                    )
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    if (name.isNotBlank() && phone.isNotBlank()) {
+                        onAddContact(name, phone)
+                    }
+                }
+            ) {
+                Text("Adicionar")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        },
+        containerColor = Color.White
+    )
 }
 
 @Preview(showBackground = true)

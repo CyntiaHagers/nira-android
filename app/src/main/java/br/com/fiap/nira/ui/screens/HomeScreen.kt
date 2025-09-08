@@ -116,7 +116,7 @@ fun HomeScreen(navController: NavController) {
 
                 Button(
                     onClick = { navController.navigate("map") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFFD740)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF39E0F)),
                     shape = RoundedCornerShape(16.dp),
                     modifier = Modifier
                         .fillMaxWidth()
