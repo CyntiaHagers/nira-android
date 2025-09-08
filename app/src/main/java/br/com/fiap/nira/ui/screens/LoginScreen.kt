@@ -161,15 +161,10 @@ fun LoginScreen(
                         messageState.value = "Por favor, preencha todos os campos."
                         messageColorState.value = Color.Red
                     } else {
-                        // Verifica se o usuário e senha existem na base de dados
-                        val userFound = userList.any { it.email == emailState.value && it.password == passwordState.value }
-                        if (userFound) {
-                            messageState.value = null
-                            onEntrar()
-                        } else {
-                            messageState.value = "E-mail ou senha inválidos."
-                            messageColorState.value = Color.Red
-                        }
+                        // AQUI ESTÁ A MUDANÇA: A validação foi removida.
+                        // Qualquer e-mail e senha não vazios permitirão o login.
+                        messageState.value = null
+                        onEntrar()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF7A10E)),
