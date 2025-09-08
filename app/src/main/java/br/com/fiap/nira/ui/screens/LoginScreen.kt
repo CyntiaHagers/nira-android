@@ -15,8 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.nira.R
@@ -49,31 +53,30 @@ fun LoginScreen(
         ) {
             // Logo
             Image(
-                painter = painterResource(id = R.drawable.logos_simbolo),
+                painter = painterResource(id = R.drawable.logo_branca),
                 contentDescription = "Logo Nira",
                 modifier = Modifier
-                    .size(250.dp)
+                    .size(200.dp)
                     .padding(bottom = 16.dp)
             )
 
-            Text(
-                text = "NIRA",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(bottom = 32.dp)
-            )
-
-
-            // Campo e-mail
+            // campo e-mail
             OutlinedTextField(
                 value = emailState.value,
                 onValueChange = { emailState.value = it },
-                placeholder = { Text("E-mail") },          // use placeholder para ficar como no mock
+                placeholder = {
+                    Text(
+                        text = "E-mail",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                            fontSize = 26.sp
+                        )
+                    )
+                },          // placeholder
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp),
-                shape = RoundedCornerShape(24.dp),         // mais arredondado (opcional)
+                shape = RoundedCornerShape(16.dp),         // mais arredondado (opcional)
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,    // 👈 fundo branco
@@ -85,18 +88,25 @@ fun LoginScreen(
                 )
             )
 
-
-            // Campo senha
+            // senha
             OutlinedTextField(
                 value = passwordState.value,
                 onValueChange = { passwordState.value = it },
-                placeholder = { Text("Senha") },
+                placeholder = {
+                    Text(
+                        text = "Senha",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                            fontSize = 26.sp
+                        )
+                    )
+                },
                 visualTransformation = PasswordVisualTransformation(),
                 trailingIcon = { Icon(Icons.Default.Lock, contentDescription = "Senha") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 4.dp),
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(16.dp),
                 singleLine = true,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedContainerColor = Color.White,
@@ -107,7 +117,6 @@ fun LoginScreen(
                     cursorColor = Color(0xFF7236A8)
                 )
             )
-
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -120,7 +129,15 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text("ENTRAR", fontWeight = FontWeight.Bold, color = Color(0xFF7236A8))
+                Text(
+                    "Entrar",
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF7236A8),
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                        fontSize = 26.sp
+                    )
+                )
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -133,10 +150,18 @@ fun LoginScreen(
                     .fillMaxWidth()
                     .height(50.dp)
             ) {
-                Text("CADASTRAR-SE", fontWeight = FontWeight.Bold, color = Color.White)
+                Text(
+                    text ="Cadastrar-se",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.dongle_regular)),
+                        fontSize = 26.sp
+                    )
+                )
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             // Botão Modo Seguro
             Button(
@@ -149,7 +174,11 @@ fun LoginScreen(
             ) {
                 Icon(Icons.Default.Lock, contentDescription = "Modo Seguro", tint = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("ENTRAR EM MODO SEGURO", fontWeight = FontWeight.Bold, color = Color.White)
+                Text(
+                    text = "MODO SEGURO",
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -161,4 +190,14 @@ fun LoginScreen(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(
+        onEntrar = {},
+        onCadastrar = {},
+        onModoSeguro = {}
+    )
 }
