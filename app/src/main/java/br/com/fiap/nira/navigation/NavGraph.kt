@@ -17,6 +17,11 @@ import br.com.fiap.nira.ui.screens.*
 import br.com.fiap.nira.ui.theme.BottomBarPurple
 import br.com.fiap.nira.ui.theme.White
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+
 object Routes {
     const val LOGIN = "login"
     const val HOME = "home"
@@ -55,7 +60,6 @@ fun AppNavHost() {
                             onClick = {
                                 if (!selected) {
                                     navController.navigate(item.route) {
-                                        // Evita múltiplas cópias da mesma tela
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -94,7 +98,25 @@ fun AppNavHost() {
             composable(Routes.MAP) { MapScreen() }
             composable(Routes.CONTACTS) { ContactsScreen() }
             composable(Routes.FEEDBACK) { FeedbackScreen() }
-            composable(Routes.CHATBOT) { ChatbotScreen() }
+
+            // Bloco corrigido para a rota CHATBOT
+            composable(Routes.CHATBOT) {
+                // 1. Crie o estado para a mensagem aqui
+                var message by remember { mutableStateOf("") }
+
+                // 2. Chame a ChatbotScreen passando o estado e os callbacks
+                ChatbotScreen(
+                    message = message,
+                    onMessageChange = { newMessage ->
+                        message = newMessage
+                    },
+                    onSendMessage = {
+                        // TODO: Adicionar lógica para enviar a mensagem (ex: para um ViewModel)
+                        println("Mensagem enviada: $message")
+                        message = "" // Limpa o campo após o envio
+                    }
+                )
+            }
         }
     }
 }
