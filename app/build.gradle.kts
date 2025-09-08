@@ -75,5 +75,6 @@ dependencies {
 
     // Location (FusedLocationProviderClient)
     implementation(libs.google.play.services.location)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 }
 
